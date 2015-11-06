@@ -53,6 +53,7 @@ DELETE        /users/delete/:id                                                 
 GET			  /users/getAllUsers/json																	@controllers.UserController.getAllUsers(format: String="json")
 POST		  /users/isUserValid																		@controllers.UserController.isUserValid
 DELETE		  /users/delete/userName/:userName/password/:password										@controllers.UserController.deleteUserByUserNameandPassword(userName: String, password: String)
+GET           /addDummyUser                                                                       @controllers.UserController.addDummyUser()
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                                                             controllers.Assets.at(path="/public", file)
@@ -61,3 +62,4 @@ GET           /assets/*file                                                     
 POST          /post                                                                                     @controllers.PostController.addPost()
 GET           /post/test                                                                                @controllers.PostController.addPostTest()
 GET           /post/:id                                                                                 @controllers.PostController.getPost(id: Long, format: String="json")
+GET           /posts/:id                                                                                @controllers.PostController.getAllPostsByUserId(id: Long, format: String="json")

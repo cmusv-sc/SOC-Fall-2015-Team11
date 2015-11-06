@@ -1,6 +1,6 @@
 // @SOURCE:/Users/qiuzhexin/Documents/workspace/SOC_final/SOC-Fall-2015-Team11/ApacheCMDA-Backend/conf/routes
-// @HASH:da7832e2366caa42e0757eb7897b36051429a654
-// @DATE:Thu Nov 05 22:29:45 PST 2015
+// @HASH:5f8d99c4940db87b129674ef62e767aacfd2eae8
+// @DATE:Fri Nov 06 15:34:39 PST 2015
 
 import Routes.{prefix => _prefix, defaultPrefix => _defaultPrefix}
 import play.core._
@@ -15,10 +15,12 @@ import _root_.play.libs.F
 import Router.queryString
 
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
-// @LINE:58
+// @LINE:59
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -59,11 +61,11 @@ import Router.queryString
 // @LINE:10
 package controllers {
 
-// @LINE:58
+// @LINE:59
 class ReverseAssets {
 
 
-// @LINE:58
+// @LINE:59
 def at(file:String): Call = {
    implicit val _rrc = new ReverseRouteContext(Map(("path", "/public")))
    Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[PathBindable[String]].unbind("file", file))
@@ -119,6 +121,7 @@ def deleteInstrument(id:Long): Call = {
 }
                           
 
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -175,6 +178,13 @@ def deleteUserByUserNameandPassword(userName:String, password:String): Call = {
 def isUserValid(): Call = {
    import ReverseRouteContext.empty
    Call("POST", _prefix + { _defaultPrefix } + "users/isUserValid")
+}
+                        
+
+// @LINE:56
+def addDummyUser(): Call = {
+   import ReverseRouteContext.empty
+   Call("GET", _prefix + { _defaultPrefix } + "addDummyUser")
 }
                         
 
@@ -243,27 +253,35 @@ def addParameter(): Call = {
 }
                           
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
 class ReversePostController {
 
 
-// @LINE:61
+// @LINE:62
 def addPost(): Call = {
    import ReverseRouteContext.empty
    Call("POST", _prefix + { _defaultPrefix } + "post")
 }
                         
 
-// @LINE:62
+// @LINE:65
+def getAllPostsByUserId(id:Long): Call = {
+   implicit val _rrc = new ReverseRouteContext(Map(("format", "json")))
+   Call("GET", _prefix + { _defaultPrefix } + "posts/" + implicitly[PathBindable[Long]].unbind("id", id))
+}
+                        
+
+// @LINE:63
 def addPostTest(): Call = {
    import ReverseRouteContext.empty
    Call("GET", _prefix + { _defaultPrefix } + "post/test")
 }
                         
 
-// @LINE:63
+// @LINE:64
 def getPost(id:Long): Call = {
    implicit val _rrc = new ReverseRouteContext(Map(("format", "json")))
    Call("GET", _prefix + { _defaultPrefix } + "post/" + implicitly[PathBindable[Long]].unbind("id", id))
@@ -440,10 +458,12 @@ def deleteClimateServiceByName(name:String): Call = {
                   
 
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
-// @LINE:58
+// @LINE:59
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -485,11 +505,11 @@ def deleteClimateServiceByName(name:String): Call = {
 package controllers.javascript {
 import ReverseRouteContext.empty
 
-// @LINE:58
+// @LINE:59
 class ReverseAssets {
 
 
-// @LINE:58
+// @LINE:59
 def at : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.Assets.at",
    """
@@ -569,6 +589,7 @@ def deleteInstrument : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -651,6 +672,17 @@ def isUserValid : JavascriptReverseRoute = JavascriptReverseRoute(
    """
       function() {
       return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "users/isUserValid"})
+      }
+   """
+)
+                        
+
+// @LINE:56
+def addDummyUser : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.UserController.addDummyUser",
+   """
+      function() {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "addDummyUser"})
       }
    """
 )
@@ -749,13 +781,14 @@ def addParameter : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
 class ReversePostController {
 
 
-// @LINE:61
+// @LINE:62
 def addPost : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.PostController.addPost",
    """
@@ -766,7 +799,18 @@ def addPost : JavascriptReverseRoute = JavascriptReverseRoute(
 )
                         
 
-// @LINE:62
+// @LINE:65
+def getAllPostsByUserId : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.PostController.getAllPostsByUserId",
+   """
+      function(id) {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "posts/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
+      }
+   """
+)
+                        
+
+// @LINE:63
 def addPostTest : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.PostController.addPostTest",
    """
@@ -777,7 +821,7 @@ def addPostTest : JavascriptReverseRoute = JavascriptReverseRoute(
 )
                         
 
-// @LINE:63
+// @LINE:64
 def getPost : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.PostController.getPost",
    """
@@ -1034,10 +1078,12 @@ def deleteClimateServiceByName : JavascriptReverseRoute = JavascriptReverseRoute
         
 
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
-// @LINE:58
+// @LINE:59
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -1079,11 +1125,11 @@ def deleteClimateServiceByName : JavascriptReverseRoute = JavascriptReverseRoute
 package controllers.ref {
 
 
-// @LINE:58
+// @LINE:59
 class ReverseAssets {
 
 
-// @LINE:58
+// @LINE:59
 def at(path:String, file:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    controllers.Assets.at(path, file), HandlerDef(this.getClass.getClassLoader, "", "controllers.Assets", "at", Seq(classOf[String], classOf[String]), "GET", """ Map static resources from the /public folder to the /assets URL path""", _prefix + """assets/$file<.+>""")
 )
@@ -1133,6 +1179,7 @@ def deleteInstrument(id:Long): play.api.mvc.HandlerRef[_] = new play.api.mvc.Han
 }
                           
 
+// @LINE:56
 // @LINE:55
 // @LINE:54
 // @LINE:53
@@ -1182,6 +1229,12 @@ def deleteUserByUserNameandPassword(userName:String, password:String): play.api.
 // @LINE:54
 def isUserValid(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.UserController]).isUserValid(), HandlerDef(this.getClass.getClassLoader, "", "controllers.UserController", "isUserValid", Seq(), "POST", """""", _prefix + """users/isUserValid""")
+)
+                      
+
+// @LINE:56
+def addDummyUser(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.UserController]).addDummyUser(), HandlerDef(this.getClass.getClassLoader, "", "controllers.UserController", "addDummyUser", Seq(), "GET", """""", _prefix + """addDummyUser""")
 )
                       
 
@@ -1243,25 +1296,32 @@ def addParameter(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
 }
                           
 
+// @LINE:65
+// @LINE:64
 // @LINE:63
 // @LINE:62
-// @LINE:61
 class ReversePostController {
 
 
-// @LINE:61
+// @LINE:62
 def addPost(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).addPost(), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "addPost", Seq(), "POST", """ Post""", _prefix + """post""")
 )
                       
 
-// @LINE:62
+// @LINE:65
+def getAllPostsByUserId(id:Long, format:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).getAllPostsByUserId(id, format), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "getAllPostsByUserId", Seq(classOf[Long], classOf[String]), "GET", """""", _prefix + """posts/$id<[^/]+>""")
+)
+                      
+
+// @LINE:63
 def addPostTest(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).addPostTest(), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "addPostTest", Seq(), "GET", """""", _prefix + """post/test""")
 )
                       
 
-// @LINE:63
+// @LINE:64
 def getPost(id:Long, format:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).getPost(id, format), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "getPost", Seq(classOf[Long], classOf[String]), "GET", """""", _prefix + """post/$id<[^/]+>""")
 )

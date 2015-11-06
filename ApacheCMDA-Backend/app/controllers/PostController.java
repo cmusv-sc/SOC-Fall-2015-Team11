@@ -157,10 +157,11 @@ public class PostController extends Controller {
 //        }
 //    }
 //
+    // get a post by post id
     public Result getPost(Long id, String format) {
         if (id == null) {
-            System.out.println("User id is null or empty!");
-            return badRequest("User id is null or empty!");
+            System.out.println("Post id is null or empty!");
+            return badRequest("Post id is null or empty!");
         }
 
         Post post = postRepository.findOne(id);
@@ -176,6 +177,33 @@ public class PostController extends Controller {
 
         return ok(result);
     }
+
+    // get all posts by a user id
+    public Result getAllPostsByUserId(Long id, String format) {
+        if (id == null) {
+            System.out.println("User id is null or empty!");
+            return badRequest("User id is null or empty!");
+        }
+
+        User user = userRepository.findOne(id);
+        List<Post> posts = postRepository.findAllByUser(user);
+        if (posts == null) {
+            System.out.println("Posts not found with user id: " + id);
+            return notFound("Posts service not found with user id: " + id);
+        }
+
+        String result = new String();
+        if (format.equals("json")) {
+            result = new Gson().toJson(posts);
+        }
+
+        return ok(result);
+    }
+
+//    // get all posts shared by a user id
+//    public Result getSharedPost(Long id, String format) {
+//
+//    }
 //
 //    public Result getAllUsers(String format) {
 //        Iterable<User> userIterable = userRepository.findAll();

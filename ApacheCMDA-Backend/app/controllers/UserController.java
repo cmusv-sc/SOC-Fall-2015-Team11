@@ -221,4 +221,37 @@ public class UserController extends Controller {
 		
 	}
 
+	// Put dummy user info
+	public Result addDummyUser() {
+		// Parse JSON file
+		String userName = "testUser";
+		String password = "xxx";
+		String firstName = "firstName";
+		String lastName = "lastName";
+		String middleInitial = "None";
+		String affiliation = "cmu";
+		String title = "professor";
+		String email = "sss@ji.com";
+		String mailingAddress = "2121 pow court";
+		String phoneNumber = "217-512-1234";
+		String faxNumber = "2123";
+		String researchFields = "SOC";
+		String highestDegree = "6";
+
+		try {
+			if (userRepository.findByUserName(userName).size()>0) {
+				System.out.println("UserName has been used: " + userName);
+				return badRequest("UserName has been used");
+			}
+			User user = new User(userName, password, firstName, lastName, middleInitial, affiliation, title, email, mailingAddress, phoneNumber, faxNumber, researchFields, highestDegree);
+			userRepository.save(user);
+			System.out.println("User saved: " + user.getId());
+			return created(new Gson().toJson(user.getId()));
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			System.out.println("User not saved: " + firstName + " " + lastName);
+			return badRequest("User not saved: " + firstName + " " + lastName);
+		}
+	}
+
 }
