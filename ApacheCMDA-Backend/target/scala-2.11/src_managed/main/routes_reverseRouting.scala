@@ -1,6 +1,6 @@
-// @SOURCE:/home/xingwei/SOC-Fall-2015/ApacheCMDA-Backend/conf/routes
-// @HASH:e96e26a337fbb66761533edb5e7687789222dff1
-// @DATE:Fri Sep 18 18:16:24 PDT 2015
+// @SOURCE:/Users/qiuzhexin/Documents/workspace/SOC_final/SOC-Fall-2015-Team11/ApacheCMDA-Backend/conf/routes
+// @HASH:da7832e2366caa42e0757eb7897b36051429a654
+// @DATE:Thu Nov 05 22:29:45 PST 2015
 
 import Routes.{prefix => _prefix, defaultPrefix => _defaultPrefix}
 import play.core._
@@ -15,6 +15,9 @@ import _root_.play.libs.F
 import Router.queryString
 
 
+// @LINE:63
+// @LINE:62
+// @LINE:61
 // @LINE:58
 // @LINE:55
 // @LINE:54
@@ -240,6 +243,36 @@ def addParameter(): Call = {
 }
                           
 
+// @LINE:63
+// @LINE:62
+// @LINE:61
+class ReversePostController {
+
+
+// @LINE:61
+def addPost(): Call = {
+   import ReverseRouteContext.empty
+   Call("POST", _prefix + { _defaultPrefix } + "post")
+}
+                        
+
+// @LINE:62
+def addPostTest(): Call = {
+   import ReverseRouteContext.empty
+   Call("GET", _prefix + { _defaultPrefix } + "post/test")
+}
+                        
+
+// @LINE:63
+def getPost(id:Long): Call = {
+   implicit val _rrc = new ReverseRouteContext(Map(("format", "json")))
+   Call("GET", _prefix + { _defaultPrefix } + "post/" + implicitly[PathBindable[Long]].unbind("id", id))
+}
+                        
+
+}
+                          
+
 // @LINE:37
 // @LINE:36
 // @LINE:35
@@ -407,6 +440,9 @@ def deleteClimateServiceByName(name:String): Call = {
                   
 
 
+// @LINE:63
+// @LINE:62
+// @LINE:61
 // @LINE:58
 // @LINE:55
 // @LINE:54
@@ -713,6 +749,48 @@ def addParameter : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
+// @LINE:63
+// @LINE:62
+// @LINE:61
+class ReversePostController {
+
+
+// @LINE:61
+def addPost : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.PostController.addPost",
+   """
+      function() {
+      return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "post"})
+      }
+   """
+)
+                        
+
+// @LINE:62
+def addPostTest : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.PostController.addPostTest",
+   """
+      function() {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "post/test"})
+      }
+   """
+)
+                        
+
+// @LINE:63
+def getPost : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.PostController.getPost",
+   """
+      function(id) {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "post/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
+      }
+   """
+)
+                        
+
+}
+              
+
 // @LINE:37
 // @LINE:36
 // @LINE:35
@@ -956,6 +1034,9 @@ def deleteClimateServiceByName : JavascriptReverseRoute = JavascriptReverseRoute
         
 
 
+// @LINE:63
+// @LINE:62
+// @LINE:61
 // @LINE:58
 // @LINE:55
 // @LINE:54
@@ -1156,6 +1237,33 @@ def deleteParameterByName(id:Long, name:String): play.api.mvc.HandlerRef[_] = ne
 // @LINE:43
 def addParameter(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.ParameterController]).addParameter(), HandlerDef(this.getClass.getClassLoader, "", "controllers.ParameterController", "addParameter", Seq(), "POST", """""", _prefix + """parameter/addParameter""")
+)
+                      
+
+}
+                          
+
+// @LINE:63
+// @LINE:62
+// @LINE:61
+class ReversePostController {
+
+
+// @LINE:61
+def addPost(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).addPost(), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "addPost", Seq(), "POST", """ Post""", _prefix + """post""")
+)
+                      
+
+// @LINE:62
+def addPostTest(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).addPostTest(), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "addPostTest", Seq(), "GET", """""", _prefix + """post/test""")
+)
+                      
+
+// @LINE:63
+def getPost(id:Long, format:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   play.api.Play.maybeApplication.map(_.global).getOrElse(play.api.DefaultGlobal).getControllerInstance(classOf[controllers.PostController]).getPost(id, format), HandlerDef(this.getClass.getClassLoader, "", "controllers.PostController", "getPost", Seq(classOf[Long], classOf[String]), "GET", """""", _prefix + """post/$id<[^/]+>""")
 )
                       
 

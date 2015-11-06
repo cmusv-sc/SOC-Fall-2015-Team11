@@ -95,6 +95,7 @@ Seq[Any](format.raw/*18.19*/("""
    <p>Kang Fang</p>
    <p>Minghan Chen</p>
    <p>Chris Lee</p>
+        <p>XXXXXXX</p>
    <br>
    <h3><strong>CMU Advisor</strong></h3>
    <p>Jia Zhang		<a href="http://www.andrew.cmu.edu/user/jiaz/">Personal Website</a></p>
@@ -132,9 +133,9 @@ Seq[Any](format.raw/*18.19*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Fri Sep 18 18:40:50 PDT 2015
-                    SOURCE: /home/xingwei/SOC-Fall-2015/ApacheCMDA-Frontend/app/views/climate/aboutus.scala.html
-                    HASH: a0e5135b7554c04a0e56e57b12e5e053ec8c0d01
+                    DATE: Thu Nov 05 16:59:04 PST 2015
+                    SOURCE: /Users/qiuzhexin/Documents/workspace/SOC_final/SOC-Fall-2015-Team11/ApacheCMDA-Frontend/app/views/climate/aboutus.scala.html
+                    HASH: 1dc29c571c0ea91c98fcc95c514e482640120a12
                     MATRIX: 3179->1205|3291->1222|3329->1225|3354->1241|3394->1243
                     LINES: 56->18|59->18|61->20|61->20|61->20
                     -- GENERATED --
