@@ -9,7 +9,13 @@
 		extra-sbtVersion="0.13"
 		conf="sources"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+<<<<<<< HEAD
 		date="20151106134533"/>
+||||||| merged common ancestors
+		date="20151105182708"/>
+=======
+		date="20151106140454"/>
+>>>>>>> 77bd6230a8bb5811bc1429166d12121075451b07
 	<dependencies>
 	</dependencies>
 </ivy-report>

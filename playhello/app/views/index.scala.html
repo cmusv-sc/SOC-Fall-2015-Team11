@@ -1,0 +1,169 @@
+@import model.User
+@import model.Post
+@(title: String)(person: User)(myPost: List[Post])(otherPost: List[Post])
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/homepage.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/styles.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top header">
+            <div class="col-md-12">
+                <div class="navbar-header">
+
+                    <a href="#" class="navbar-brand">Homepage</a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse1">
+                    <form class="navbar-form pull-left">
+                        <div class="input-group" style="max-width:470px;">
+                            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                            <!--  <li><a href="http://usebootstrap.com/theme/google-plus" target="_ext">Bootply+</a></li> -->
+                        <li class="">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-bell"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
+                                <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="" href="#" id="btnToggle"><i class="glyphicon glyphicon-th-large"></i></a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 20px; margin-bottom: 20px;"></div>
+            <!--main-->
+        <div class="container" id="main">
+            <div class="row panel">
+                <div class="col-md-8  col-xs-12">
+                    <img src="@routes.Assets.versioned("img/people-q-c-100-100-1.jpg")" class="img-thumbnail picture hidden-xs" />
+                    <div class="header">
+                        <h1><span>@person.getFirstName</span><span>@person.getLastName</span></h1>
+                        <h4>@person.getAffiliation</h4>
+                        <span>@person.getHighestDegree</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row nav">
+                <div class="col-md-12 col-xs-12" style="margin: 0px;padding: 0px;">
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-weixin fa-lg"></i>Profile</div>
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-weixin fa-lg"></i>Personal post</div>
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-heart-o fa-lg"></i>Friends post</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a href="#" class="pull-right">View all</a>
+                            <h4><span>@person.getFirstName</span><span>@person.getLastName</span></h4>
+                            <h6>@person.getEmail</h6>
+                            <h6>@person.getPhoneNumber</h6>
+                        </div>
+                        <div class="panel-body">
+                            <img src="assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Female</a>
+                            <div class="clearfix"></div>
+                            @person.getResearchFields
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="well">
+                        <form class="form-horizontal" role="form">
+                            <h4>What's New</h4>
+                            <div class="form-group" style="padding:14px;">
+                                <textarea class="form-control" placeholder="Update your status"></textarea>
+                            </div>
+                            <button class="btn btn-primary pull-right" type="button">Post</button>
+                            <ul class="list-inline">
+                                <li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li>
+                            </ul>
+                        </form>
+                    </div>
+                    @for(p <- myPost) {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#" class="pull-right">@p.getCreateTime</a>
+                                <h4>@p.getUser</h4>
+                            </div>
+                            <div class="panel-body">
+                                <p><img src="assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">@p.getContent</a></p>
+                                <div class="clearfix"></div>
+                                <hr>
+                                <ul class="list-unstyled">
+                                    <li>@p.getLikes</li>
+                                    <li><a href="#">Edit</a></li>
+                                    <li><a href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    @for(p <- otherPost) {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#" class="pull-right">@p.getCreateTime</a>
+                                <h4>@p.getUser</h4>
+                            </div>
+                            <div class="panel-body">
+                                <img src="assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">@p.getContent</a>
+                                <div class="clearfix"></div>
+                                <hr>
+                                <form>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default"><i class="glyphicon glyphicon-heart-empty"></i></button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                                        </div>
+                                        <input class="form-control" placeholder="Add a comment.." type="text">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="@routes.Assets.versioned("js/jquery.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+        <script type="text/javascript">
+                $(document).ready(function() {
+
+                    $('#btnToggle').click(function(){
+                        if ($(this).hasClass('on')) {
+                            $('#main .col-md-6').addClass('col-md-4').removeClass('col-md-6');
+                            $(this).removeClass('on');
+                        }
+                        else {
+                            $('#main .col-md-4').addClass('col-md-6').removeClass('col-md-4');
+                            $(this).addClass('on');
+                        }
+                    });
+                });
+
+        </script>
+    </body>
+</html>
