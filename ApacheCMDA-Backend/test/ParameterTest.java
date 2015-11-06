@@ -7,6 +7,7 @@ import org.junit.Test;
 
 
 
+
 public class ParameterTest {
 	private static long TEST_ID = 0;
 	private static ClimateService climateService;
