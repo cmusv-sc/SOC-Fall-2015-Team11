@@ -1,0 +1,15 @@
+@(message: String)
+
+@main("Welcome to Play") {
+
+    <form action="@routes.ShareController.addSharePost()" method="post">
+        Sharer email:
+        <input type="text" name="sharerEmail">
+        <br>
+        Post id:
+        <input type="text" name="postId">
+        <br>
+        <button>add share</button>
+    </form>
+
+}

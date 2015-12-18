@@ -1,0 +1,47 @@
+@(message: String)
+
+@main("Welcome to Play") {
+
+
+
+<form action="@routes.UserController.addUserForTest()" enctype="application/json" method="post">
+    userName:
+    <input type="text" name="userName">
+    <br>
+    password:
+    <input type="text" name="password">
+    <br>
+    firstName:
+    <input type="text" name="firstName">
+    <br>
+    lastName:
+    <input type="text" name="lastName">
+    <br>
+    middleInitial:
+    <input type="text" name="middleInitial">
+    <br>
+    affiliation:
+    <input type="text" name="affiliation">
+    <br>
+    title:
+    <input type="text" name="title">
+    <br>
+    email:
+    <input type="text" name="email">
+    <br>
+    mailingAddress:
+    <input type="text" name="mailingAddress">
+    <br>
+    phoneNumber:
+    <input type="text" name="phoneNumber">
+    <br>
+    faxNumber:
+    <input type="text" name="faxNumber">
+    <br>
+    researchFields:
+    <input type="text" name="researchFields">
+    <br>
+    <button>add user</button>
+</form>
+
+}

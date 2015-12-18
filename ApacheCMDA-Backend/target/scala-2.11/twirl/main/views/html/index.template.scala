@@ -30,10 +30,9 @@ Seq[Any](format.raw/*1.19*/("""
 
 """),_display_(/*3.2*/main("Welcome to Play")/*3.25*/ {_display_(Seq[Any](format.raw/*3.27*/("""
 
-    """),_display_(/*5.6*/play20/*5.12*/.welcome(message, style = "Java")),format.raw/*5.45*/("""
+    """),_display_(/*5.6*/message),format.raw/*5.13*/("""
 
-""")))}),format.raw/*7.2*/("""
-"""))}
+""")))}))}
   }
 
   def render(message:String): play.twirl.api.HtmlFormat.Appendable = apply(message)
@@ -45,11 +44,11 @@ Seq[Any](format.raw/*1.19*/("""
 }
               /*
                   -- GENERATED --
-                  DATE: Thu Nov 05 17:58:38 PST 2015
-                  SOURCE: /Users/qiuzhexin/Documents/workspace/SOC_final/SOC-Fall-2015-Team11/ApacheCMDA-Backend/app/views/index.scala.html
-                  HASH: 2525948bb0b9a19833e9b9027e706281dd6c624c
-                  MATRIX: 723->1|828->18|856->21|887->44|926->46|958->53|972->59|1025->92|1057->95
-                  LINES: 26->1|29->1|31->3|31->3|31->3|33->5|33->5|33->5|35->7
+                  DATE: Mon Nov 16 00:52:52 PST 2015
+                  SOURCE: /Users/qiuzhexin/Documents/workspace/SOC_final/SOC-Fall-2015/ApacheCMDA-Backend/app/views/index.scala.html
+                  HASH: 9e43fa860508073d844c5cdd884d4e4ecec6e6fb
+                  MATRIX: 723->1|828->18|856->21|887->44|926->46|958->53|985->60
+                  LINES: 26->1|29->1|31->3|31->3|31->3|33->5|33->5
                   -- GENERATED --
               */
           

@@ -6,6 +6,9 @@
 # will call on the GlobalSettings.getController method to resolve the actual controller instance.
 # GET     /                           @controllers.Application.index
 
+# Testing page
+#GET           /                       @controllers.PostController.index()
+
 # Climate Service
 GET           /climateService/getClimateService/:name/json                                              @controllers.ClimateServiceController.getClimateService(name: String, format: String="json")
 GET           /climateService/getClimateService/id/:id                                                  @controllers.ClimateServiceController.getClimateServiceById(id: Long)
@@ -53,13 +56,50 @@ DELETE        /users/delete/:id                                                 
 GET			  /users/getAllUsers/json																	@controllers.UserController.getAllUsers(format: String="json")
 POST		  /users/isUserValid																		@controllers.UserController.isUserValid
 DELETE		  /users/delete/userName/:userName/password/:password										@controllers.UserController.deleteUserByUserNameandPassword(userName: String, password: String)
-GET           /addDummyUser                                                                       @controllers.UserController.addDummyUser()
+
+GET           /users/new/test                                                                           @controllers.UserController.newUser()
+POST          /users/add/test                                                                           @controllers.UserController.addUserForTest()
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                                                             controllers.Assets.at(path="/public", file)
 
 # Post
+GET           /onepost/:id                                                                              @controllers.PostController.getPost(id: Long, format: String="json")
+GET           /post/user/:id                                                                            @controllers.PostController.getAllPostsByUserId(id: Long, format: String="json")
+GET           /post/new                                                                                 @controllers.PostController.newPost()
 POST          /post                                                                                     @controllers.PostController.addPost()
-GET           /post/test                                                                                @controllers.PostController.addPostTest()
-GET           /post/:id                                                                                 @controllers.PostController.getPost(id: Long, format: String="json")
-GET           /posts/:id                                                                                @controllers.PostController.getAllPostsByUserId(id: Long, format: String="json")
+POST          /post/like                                                                                @controllers.PostController.likeToPost()
+GET           /post/delete/:id                                                                          @controllers.PostController.deletePostByPostId(id: Long)
+POST          /post/edit                                                                                @controllers.PostController.editPostByPostId()
+GET           /post/popular                                                                             @controllers.PostController.getTopTenPostsByPopularity(format: String="json")
+GET           /post/delete/user/:id                                                                     @controllers.PostController.deleteAllPostsByUserId(id: Long)
+GET           /post/follow/:id                                                                          @controllers.PostController.findFolloweePostsByUserIdOrderByTime(id: Long, String="json")
+
+# Share
+GET           /share/new                                                                                @controllers.ShareController.newShare()
+POST          /share                                                                                    @controllers.ShareController.addSharePost()
+GET           /share/user/:id                                                                           @controllers.ShareController.getSharedPostsByUserId(id: Long, format: String="json")
+GET           /share/delete/:postId                                                                     @controllers.ShareController.deleteShareByPostId(postId: Long)
+GET           /share/deleteAll                                                                          @controllers.ShareController.deleteAllShares()
+
+# Follow
+GET           /follow/new                                                                               @controllers.FollowController.newFollow()
+POST          /follow                                                                                   @controllers.FollowController.addFollow()
+GET           /follow/user/:id                                                                          @controllers.FollowController.getFollowersByUserId(id: Long, format: String="json")
+GET           /follow/all                                                                               @controllers.FollowController.getAllFollow()
+GET           /follow/delete/:followId                                                                  @controllers.FollowController.deleteFollowById(followId: Long)
+
+# Comment
+POST          /comment                                                                                  @controllers.CommentController.addComment()
+GET           /comment/post/:id                                                                        @controllers.CommentController.getAllCommentsByPostIdOrderByTimeAsc(id: Long, format: String="json")
+
+# Search
+POST          /search/user/criteria                                                                     @controllers.SearchController.searchUsingCriteria()
+GET           /search/user/fuzzy/:partial                                                               @controllers.SearchController.searchUserFuzzy(partial: String, format: String="json")
+GET           /search/post/:keyword                                                                     @controllers.SearchController.searchPostContentByKeyword(keyword: String, format: String="json")
+
+# Auto completion
+GET           /user/autocomplete/firstname/:query                                                        @controllers.UserController.autoCompFirstName(query: String)
+GET           /user/autocomplete/lastname/:query                                                       @controllers.UserController.autoCompLastName(query: String)
+GET           /user/autocomplete/email/:query                                                           @controllers.UserController.autoCompEmail(query: String)
+POST          /user/autocomplete/exact                                                                  @controllers.UserController.autoCompExact()

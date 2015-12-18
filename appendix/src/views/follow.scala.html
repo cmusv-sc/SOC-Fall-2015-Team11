@@ -1,0 +1,15 @@
+@(message: String)
+
+@main("Welcome to Play") {
+
+<form action="@routes.FollowController.addFollow()" method="post">
+    follower email:
+    <input type="text" name="followerEmail">
+    <br>
+    followee email:
+    <input type="text" name="followeeEmail">
+    <br>
+    <button>add follow</button>
+</form>
+
+}
