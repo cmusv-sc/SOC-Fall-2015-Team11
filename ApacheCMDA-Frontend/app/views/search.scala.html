@@ -1,0 +1,113 @@
+@import model.User
+@import model.Post
+@(searchUsers: List[User])(searchPosts: List[Post])
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search Results</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/styles.css")">
+        <link href="../../public/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../public/css/styles.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <div class="nav navbar navbar-default navbar-static-top">
+            <div class="row">
+                <div class="col-xs-2">
+                    <a href="#" class="navbar-brand">Personalized Main Page</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="col-xs-10" role="navigation">
+                    <form class="navbar-form navbar-left" action="/home/search" method="POST">
+                        <div class="input-group input-group-sm col-xs-4">
+                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                        <ul class="pull-right">
+                            <li class="list-unstyled">
+                                <h5><i class="glyphicon glyphicon-home"></i> Home </h5>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" >
+            <div class="row">
+                <div class="col-xs-12 panel panel-primary">
+                    <div class="panel-heading">
+                        <h4><span>Searched User</span></h4>
+                    </div>
+                    <div class="panel-body">
+                        @for( person <- searchUsers) {
+                            <div class="row panel">
+                                <img src="@routes.Assets.at("img/people-q-c-100-100-1.jpg")" class="img-thumbnail picture hidden-xs" />
+                                <div class="header">
+                                    <h1><span>@person.getFirstName</span> <span>@person.getLastName</span></h1>
+                                    <h4>@person.getAffiliation</h4>
+                                    <span>@person.getHighestDegree</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-xs-12 panel panel-primary">
+                    <div class="panel-heading">
+                        <h5><span> Searched Posts</span></h5>
+                    </div>
+                    <div class="panel-body">
+                        @for( p <- searchPosts) {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary pull-right btn-follower" data-id="@p.getUser.getId">View Followers</button>
+                                    <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span></h4>
+                                </div>
+                                <div class="panel-body">
+                                    <a href="#">@p.getContent</a>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    <form>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-follow" data-email="@p.getUser.getEmail"><i class="glyphicon glyphicon-plus" data-email="@p.getUser.getEmail"></i></button>
+                                                @if(p.isLiked) {
+                                                    <button class="btn btn-danger disabled btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                } else {
+                                                    <button class="btn btn-default btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                }
+
+                                                <button class="btn btn-default btn-share" data-pid="@p.getId"><i class="glyphicon glyphicon-share" data-pid="@p.getId"></i></button>
+                                            </div>
+                                            <input class="form-control" placeholder="Add a comment.." type="text">
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a href="#" class="text-right">@p.getCreateTime</a>
+                                </div>
+                            </div>
+                        }
+                    </div> <!-- /search post -->
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-switch.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/person.js")"></script>
+    </body>
+</html>

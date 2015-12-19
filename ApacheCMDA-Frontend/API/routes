@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# Home page
+GET     /:name                          controllers.Application.index(name: String)
+GET     /follower/:id                   controllers.Application.follower(id: Integer)
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)
+POST    /follow                         controllers.Application.follow()
+POST    /newpost                        controllers.Application.newPost()
+POST    /post/like                      controllers.Application.likePost()
+POST    /post/edit                      controllers.Application.editPost()
+GET     /post/delete/:id                controllers.Application.deletePost(id: Integer)
+
+# personalized main page
+GET     /home/person/:id                controllers.Application.mainPage(id: Integer)
+POST    /newMainPost                    controllers.Application.newMainPost()
+POST    /home/search                    controllers.Application.searchPost()
+POST    /user/search/fuzzy              controllers.Application.searchFuzzyUser()
+POST    /share                          controllers.Application.sharePost()
+GET     /user/autocomplete/lastname     controllers.Application.autoCompleteLastname()
+GET     /user/autocomplete/firstname     controllers.Application.autoCompleteFirstname()
+GET     /user/autocomplete/email         controllers.Application.autoCompleteEmail()
+POST    /user/search/exact              controllers.Application.searchExactUser()
+POST    /comment                        controllers.Application.newComment()
+GET     /comment/post/:id               controllers.Application.getCommentsByPost(id: Integer)

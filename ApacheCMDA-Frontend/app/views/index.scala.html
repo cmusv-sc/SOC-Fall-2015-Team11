@@ -1,0 +1,328 @@
+@import model.User
+@import model.Post
+@(title: String)(person: User)(myPost: List[Post])(otherPost: List[Post])(popularPost: List[Post])
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap.new.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-switch.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/autocomplete.css")">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top header">
+            <div class="col-md-12">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand">Homepage</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse1">
+                    <form class="navbar-form pull-left" id="search-fuzzy-form" action="/user/search/fuzzy" method="POST">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Search Users..." name="srch-term" id="srch-term" type="text">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-bell"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
+                                <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
+                                <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="" href="#" id="btnToggle"><i class="glyphicon glyphicon-th-large"></i></a></li>
+                        <li><a href="/home/person/@person.getId"><i class="glyphicon glyphicon-user"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="followerModel" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Followers</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Edit My Post</h4>
+                    </div>
+                    <form action="/post/edit" method="POST" id="edit-form" >
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">New Content</label>
+                                <input type="text" required="required" class="form-control" name="name" id="new-content">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2" style="position: absolute">
+            <br><br><br>
+            <div class="panel panel-default" id="search-options">
+                <div class="panel-heading">
+                    <button class="btn btn-sm btn-danger pull-right btn-form-close"><span class="glyphicon glyphicon-remove btn-form-close"></span></button>
+                    <h5>Search Options</h5>
+                </div>
+                <div class="panel-body">
+                    <input type="checkbox" id="search-type" name="privacy" data-on-text="fuzzy" data-off-text="exact" checked>
+                    <br><br>
+                    <form class="form" name="exact-search" id="search-exact" method="POST" action="/user/search/exact">
+                        <div class="form-group">
+                            <label>Lastname: </label>
+                            <input class="form-control" placeholder="LastName" name="lastname" type="text" id="soc-lastname">
+                        </div>
+                        <div class="form-group">
+                            <label>Firstname: </label>
+                            <input class="form-control" placeholder="FirstName" name="firstname" type="text" id="soc-firstname">
+                        </div>
+                        <div class="form-group">
+                            <label>Email: </label>
+                            <input class="form-control" placeholder="E-mail" name="email" type="email" id="soc-email">
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary pull-right">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="main">
+            <div class="row panel">
+                <div class="col-md-8 col-xs-12">
+                    <img src="@routes.Assets.at("img/people-q-c-100-100-1.jpg")" class="img-thumbnail picture hidden-xs" />
+                    <div class="header">
+                        <h1><span>@person.getFirstName</span><span>@person.getLastName</span></h1>
+                        <h4>@person.getAffiliation</h4>
+                        <span>@person.getHighestDegree</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row nav">
+                <div class="col-md-12 col-xs-12" >
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-weixin fa-lg"></i>Profile</div>
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-weixin fa-lg"></i>Personal post</div>
+                    <div class="col-md-4 col-xs-4 well"><i class="fa fa-heart-o fa-lg"></i>Friends post</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button id="my-follower" class="btn btn-primary pull-right" data-id="@person.getId">My Followers</button>
+                            <h4><span>@person.getFirstName</span> <span>@person.getLastName</span></h4>
+                            <h6 id="username">@person.getUserName</h6>
+                            <h6 id="email">@person.getEmail</h6>
+                            <h6>@person.getPhoneNumber</h6>
+                        </div>
+                        <div class="panel-body">
+                            <img src="assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Female</a>
+                            <div class="clearfix"></div>
+                            @person.getResearchFields
+                            <hr>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span><span> Top 10 Popular</span></h4>
+                        </div>
+                        <div class="panel-body">
+                            @for(p <- popularPost) {
+                                @if(p.getPrivacy == "public") {
+                                    <div class="panel panel-default post-item" data-id="@p.getId">
+                                        <div class="panel-heading">
+                                            <button class="btn btn-primary pull-right btn-follower" data-id="@p.getUser.getId">View Followers</button>
+                                            <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span></h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <a href="#">@p.getContent</a>
+                                            <div class="clearfix"></div>
+                                            <hr>
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+
+                                                    <button class="btn btn-default btn-follow" data-email="@p.getUser.getEmail"><i class="glyphicon glyphicon-plus" data-email="@p.getUser.getEmail"></i></button>
+                                                    @if(p.isLiked) {
+                                                        <button class="btn btn-danger disabled btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                    } else {
+                                                        <button class="btn btn-default btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                    }                                            <button class="btn btn-default btn-share" data-pid="@p.getId"><i class="glyphicon glyphicon-share" data-pid="@p.getId"></i></button>
+                                                </div>
+                                                <form class="new-comments" data-pid="@p.getId" method="POST">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Add a comment.." aria-describedby="basic-addon2">
+                                                        <span class="input-group-btn">
+                                                            <input class="btn btn-default" role="button" type="submit" value="Comment" />
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <ul class="list-group comment-list">
+                                            </ul>
+                                            <br>
+                                            <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <a href="#" class="text-right">@p.getCreateTime</a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 col-md-4">
+                    <div class="well">
+                        <form class="form-horizontal" action="/newpost" method="POST" id="new_post" role="form">
+                            <h4>What's New</h4>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Update your status" id="postContent" name="postContent"></textarea>
+                            </div>
+                            <input type="checkbox" id="privacy" name="privacy" data-on-text="public" data-off-text="private" checked>
+                            <button id="post-btn" class="btn btn-primary pull-right" type="button submit">Post</button>
+                            <br>
+                            <br>
+                            <ul class="list-inline">
+                                <li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li>
+                            </ul>
+                            <input type="hidden" name="email" value="@person.getEmail">
+                            <input type="hidden" name="authorId" value="@person.getId">
+                            <input type="hidden" name="longitude" value="">
+                            <input type="hidden" name="latitude" value="">
+
+                        </form>
+
+                    </div>
+                    @for(p <- myPost) {
+                        @if(p.getPrivacy == "public") {
+                            <div class="hide panel panel-default my-post-item">
+                        } else {
+                            <div class="hide panel panel-warning my-post-item">
+                        }
+                            <div class="panel-heading">
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="a-edit" data-pid="@p.getId" href="#">Edit</a></li>
+                                        <li><a class="a-delete" data-pid="@p.getId" href="#">Delete</a></li>
+                                    </ul>
+                                </div>
+                                @if(p.getPrivacy == "public") {
+                                    <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span> </h4>
+                                } else {
+                                    <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span> <span class="glyphicon glyphicon-lock"></span></h4>
+                                }
+
+                            </div>
+                            <div class="panel-body">
+                                <p class="content">@p.getContent</p>
+                                <div class="clearfix"></div>
+                                <hr>
+
+                                <button class="btn btn-primary" type="button">
+                                  Like Count <span class="badge">@p.getLikes</span>
+                                </button>
+
+                            </div>
+                            <br>
+                            <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                            <div class="panel-footer">
+                                <a href="#" class="text-right">@p.getCreateTime</a>
+                            </div>
+                        </div>
+                    }
+                    <nav>
+                        <ul class="pager">
+                            <li><a href="#" id="more-link" data-batch="5">Read More >>> </a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-sm-6 col-md-4" id="shared-post">
+                    @for(p <- otherPost) {
+                        @if(p.getPrivacy != "private") {
+
+                        <div class="panel panel-default post-item" data-id="@p.getId">
+                            <div class="panel-heading">
+                                <button class="btn btn-primary pull-right btn-follower" data-id="@p.getUser.getId">View Followers</button>
+                                <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span></h4>
+                            </div>
+                            <div class="panel-body">
+                                    <p>@p.getContent</p>
+
+                                <div class="clearfix"></div>
+                                <hr>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+
+                                            <button class="btn btn-default btn-follow" data-email="@p.getUser.getEmail"><i class="glyphicon glyphicon-plus" data-email="@p.getUser.getEmail"></i></button>
+                                            @if(p.isLiked) {
+                                                <button class="btn btn-danger disabled btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                            } else {
+                                                <button class="btn btn-default btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                            }                                            <button class="btn btn-default btn-share" data-pid="@p.getId"><i class="glyphicon glyphicon-share" data-pid="@p.getId"></i></button>
+                                        </div>
+                                        <form class="new-comments" data-pid="@p.getId" method="POST">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Add a comment.." aria-describedby="basic-addon2">
+                                                <span class="input-group-btn">
+                                                    <input class="btn btn-default" role="button" type="submit" value="Comment" />
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                <ul class="list-group comment-list">
+                                </ul>
+                                <br>
+                                <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="#" class="text-right">@p.getCreateTime</a>
+                            </div>
+                        </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-switch.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.autocomplete.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/homepage.js")"></script>
+    </body>
+</html>

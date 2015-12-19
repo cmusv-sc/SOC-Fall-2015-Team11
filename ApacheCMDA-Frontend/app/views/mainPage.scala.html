@@ -1,0 +1,308 @@
+@import model.User
+@import model.Post
+@(title: String)(person: User)(popularPost: List[Post])(allPosts: List[Post])
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap.new.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-switch.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/autocomplete.css")">
+    </head>
+    <body>
+        <link rel="stylesheet" href="@routes.Assets.at("css/weather.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("css/weather-icons.css")">
+        <link rel="stylesheet" href="http://erikflowers.github.io/weather-icons/css/styles.css">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <div class="navbar navbar-fixed-top header">
+            <div class="col-md-12">
+
+
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand">Main Page</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <nav class="collapse navbar-collapse" role="navigation">
+                    <form class="navbar-form navbar-left" action="/home/search" method="POST" id="search" role="form">
+                        <div class="input-group input-group-sm" style="width:240px;">
+                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            <a href="/@person.getId"><i class="glyphicon glyphicon-home"></i> Home</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div id="followerModel" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Followers</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Edit My Post</h4>
+                    </div>
+                    <form action="/post/edit" method="POST" id="edit-form" >
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">New Content</label>
+                                <input type="text" required="required" class="form-control" name="name" id="new-content">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-xs-2" style="position: absolute">*@
+            @*<br><br><br>*@
+            @*<div class="panel panel-default" id="search-options">*@
+                @*<div class="panel-heading">*@
+                    @*<button class="btn btn-sm btn-danger pull-right btn-form-close"><span class="glyphicon glyphicon-remove btn-form-close"></span></button>*@
+                    @*<h5>Search Options</h5>*@
+                @*</div>*@
+                @*<div class="panel-body">*@
+                    @*<input type="checkbox" id="search-type" name="privacy" data-on-text="fuzzy" data-off-text="exact" checked>*@
+                    @*<br><br>*@
+                    @*<form class="form" name="exact-search" id="search-exact" method="POST" action="/user/search/exact">*@
+                        @*<div class="form-group">*@
+                            @*<label>Lastname: </label>*@
+                            @*<input class="form-control" placeholder="LastName" name="lastname" type="text" id="soc-lastname">*@
+                        @*</div>*@
+                        @*<div class="form-group">*@
+                            @*<label>Firstname: </label>*@
+                            @*<input class="form-control" placeholder="FirstName" name="firstname" type="text" id="soc-firstname">*@
+                        @*</div>*@
+                        @*<div class="form-group">*@
+                            @*<label>Email: </label>*@
+                            @*<input class="form-control" placeholder="E-mail" name="email" type="email" id="soc-email">*@
+                        @*</div>*@
+                        @*<hr>*@
+                        @*<button type="submit" class="btn btn-primary pull-right">Search</button>*@
+                    @*</form>*@
+                @*</div>*@
+            @*</div>*@
+        @*</div>*@
+        <div class="container" id="main">
+            <div class="row panel">
+                <div class="col-md-6 col-xs-12">
+                    <img src="@routes.Assets.at("img/people-q-c-100-100-1.jpg")" class="img-thumbnail picture hidden-xs" />
+                    <div class="header">
+                        <h1><span>@person.getFirstName</span><span>@person.getLastName</span></h1>
+                        <h4>@person.getAffiliation</h4>
+                        <span>@person.getHighestDegree</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="panel panel-default weather-panel">
+                        <div class="panel-heading">Current weather<br><small id="currentTime" class="supersmall"></small></div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="wi" id="currentIcon"></span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 0px">
+                                <h1 class="temp"><span id="currentTemperature"></span><span>&deg;</span></h1>
+                                <small id="currentSummary"></small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12"><span></span><br>
+                                <span>wind: </span><span id="currentWind"></span><span> mph(s)</span><br>
+                                <span id="hourlySummary"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row nav">
+                <div class="col-md-12 col-xs-12" >
+                    <div class="col-md-6 col-xs-6 well"><i class="fa fa-weixin fa-lg"></i>Profile</div>
+                    <div class="col-md-6 col-xs-6 well"><i class="fa fa-weixin fa-lg"></i>Friend's post</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button id="my-follower" class="btn btn-primary pull-right" data-id="@person.getId">My Followers</button>
+                            <h4><span>@person.getFirstName </span> <span> @person.getLastName</span></h4>
+                            <h6 id="username">@person.getUserName</h6>
+                            <h6 id="email">@person.getEmail</h6>
+                            <h6>@person.getPhoneNumber</h6>
+                        </div>
+                        <div class="panel-body">
+                            <img src="assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Female</a>
+                            <div class="clearfix"></div>
+                            @person.getResearchFields
+                            <hr>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span><span> Top 10 Popular</span></h4>
+                        </div>
+                        <div class="panel-body">
+                        @for(p <- popularPost) {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary pull-right btn-follower" data-id="@p.getUser.getId">View Followers</button>
+                                    <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span></h4>
+                                </div>
+                                <div class="panel-body">
+                                    <a href="#">@p.getContent</a>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    <form>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-follow" data-email="@p.getUser.getEmail"><i class="glyphicon glyphicon-plus" data-email="@p.getUser.getEmail"></i></button>
+                                                @if(p.isLiked) {
+                                                    <button class="btn btn-danger disabled btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                } else {
+                                                    <button class="btn btn-default btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                                }
+
+                                                <button class="btn btn-default btn-share" data-pid="@p.getId"><i class="glyphicon glyphicon-share" data-pid="@p.getId"></i></button>
+                                            </div>
+                                            <input class="form-control new-comments" data-pid="@p.getId" placeholder="Add a comment.." type="text">
+                                        </div>
+                                    </form>
+                                    <ul class="list-group comments">
+                                    @if(p.getComments != null) {
+                                        @for(c <- p.getComments) {
+                                            <li class="list-group-item">
+                                                <p><strong>@c.getCommenter.getUserName</strong>: @c.getComment</p>
+                                                <p class="text-right small"><span class="glyphicon glyphicon-time"></span> @c.getCreateTime</p>
+                                            </li>
+                                        }
+                                    }
+                                    </ul>
+                                    <br>
+
+                                    <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a href="#" class="text-right">@p.getCreateTime</a>
+                                </div>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="well">
+                        @*<form class="form-horizontal" action="/newMainPost" method="POST" id="new_main_post" role="form">*@
+                        <form class="form-horizontal" action="/newMainPost" method="POST" id="new_post" role="form">
+                            <h4>What's New</h4>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Update your status" id="postContent" name="postContent"></textarea>
+                            </div>
+                            <input type="checkbox" id="privacy" name="privacy" data-on-text="public" data-off-text="private" checked>
+                            <button id="post-btn" class="btn btn-primary pull-right" type="button submit">Post</button>
+                            <br>
+                            <br>
+                            <ul class="list-inline">
+                                <li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li>
+                                <li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li>
+                            </ul>
+                            <input type="hidden" name="email" value="@person.getEmail">
+                            <input type="hidden" name="authorId" value="@person.getId">
+                            <input type="hidden" name="longitude" value="">
+                            <input type="hidden" name="latitude" value="">
+
+                        </form>
+
+                    </div>
+                    <div class="row" id="shared-post">
+                    @for(p <- allPosts) {
+                        @if(p.getPrivacy != "private") {
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary pull-right btn-follower" data-id="@p.getUser.getId">View Followers</button>
+                                    <h4><span>@p.getUser.getFirstName</span> <span>@p.getUser.getLastName</span></h4>
+                                </div>
+                                <div class="panel-body">
+                                    <a href="#">@p.getContent</a>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+
+                                            <button class="btn btn-default btn-follow" data-email="@p.getUser.getEmail"><i class="glyphicon glyphicon-plus" data-email="@p.getUser.getEmail"></i></button>
+                                            @if(p.isLiked) {
+                                                <button class="btn btn-danger disabled btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                            } else {
+                                                <button class="btn btn-default btn-like" data-pid="@p.getId"><i class="glyphicon glyphicon-heart-empty" data-pid="@p.getId"></i></button>
+                                            }                                            <button class="btn btn-default btn-share" data-pid="@p.getId"><i class="glyphicon glyphicon-share" data-pid="@p.getId"></i></button>
+                                        </div>
+                                        <form id="new-comments" data-pid="@p.getId" method="POST">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Add a comment.." aria-describedby="basic-addon2">
+                                                <span class="input-group-btn">
+                                                    <input class="btn btn-default" role="button" type="submit" value="Comment" />
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <ul class="list-group comment-list">
+                                    </ul>
+                                    <br>
+                                    <p><span class="glyphicon glyphicon-map-marker"></span> <span>@p.getLongitude, @p.getLatitude</span></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a href="#" class="text-right">@p.getCreateTime</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-switch.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.autocomplete.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/person.js")"></script>
+    </body>
+</html>

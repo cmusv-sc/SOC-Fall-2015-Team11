@@ -1,0 +1,9 @@
+Purpose:
+The purpose of the project is to provide API calls for frontend of a scientific social network for realization of a social network web application functionality such as post, follow, comment, share, search, etc.
+
+How to use:
+1.	Clone the project from GitHub
+2.	Install play’s activator software
+3.	Under the frontend project folder run ./activator run
+After the third step, the frontend program will run on default port 9001, this frontend program can connect to 9000 port to call backend web services.
+You may also choose to import the project into IntelliJ. We have a tutorial in the lab report to show how to do that.
